@@ -19,7 +19,7 @@ function serviceDetails() {
   return (
     <Box m='.5rem' border='2px' borderColor='#9B5D73' borderRadius='xl'>
       <Header />
-      <Text></Text>
+      <Text align='center' fontSize='2xl' fontWeight='bold' color='#9B5D73'>Lets Build Your Brows</Text>
       <Box p='2rem 0' gap={5} display='flex' flexDir='column'>
         {renderedServiceCards}
       </Box>

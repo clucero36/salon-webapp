@@ -19,7 +19,7 @@ const serviceData = [
   {
     service: 'Lash Lift',
     imageSrc: '/static/img/browlam.PNG',
-    desc: 'all-natural, semi-permanent procedure that gives you the appearance of fuller, thicker eyelashes without the use of any leave-on chemicals or extensions. The natural lashes are boosted from the root, giving them a lifted, lengthened appearance.'
+    desc: 'All-natural, semi-permanent procedure that gives you the appearance of fuller, thicker eyelashes without the use of any leave-on chemicals or extensions. The natural lashes are boosted from the root, giving them a lifted, lengthened appearance.'
   }
 ]
 

@@ -4,9 +4,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import Header from '../components/Header';
 
-// pre rendering method used to call the server
-// passes services provided as props to services
+// pre rendering method makes a request to express server
+// passes services retrieved in response as props to 
+// BookableServices
 // export async function getServerSideProps() {
 
 //   const res = await fetch('http://localhost:3030');
@@ -26,7 +28,8 @@ import Link from 'next/link';
 //   }
 // }
 
-
+// BookableServices Displays list of services retrieved from pre render.
+// Next.js Link component transitions user to /staffSelect page. Query params provided.
 export default function BookableServices({ serviceData }) {
   // console.log(JSON.parse(serviceData))
   // let services = JSON.parse(serviceData);
@@ -46,8 +49,10 @@ export default function BookableServices({ serviceData }) {
   //   )
   // })
   return (   
-    <Box p='4rem' align='center' h='97.5vh' m='.5rem' border='2px' borderColor='#988686' borderRadius='xl'>
-      <Text>Book An Appointment With Me! Coming Soon!</Text>
+    <Box align='center' h='97.5vh' m='.5rem' border='2px' borderColor='#988686' borderRadius='xl'>
+      <Header />
+      <Text>Book An Appointment With Me!</Text>
+      <Text>Coming Soon!</Text>
       {/* {renderedServices} */}
     </Box>
   )

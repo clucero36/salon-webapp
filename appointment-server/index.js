@@ -19,7 +19,9 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
 
-// called from services page to retrieve list of services provided.
+// route handler 
+// get requests for https://localhost:3030 endpoint
+// calls Square Api & sends list of services provided in the response
 app.get("/", async (req, res, next) => {
   try {
     let { result: { items }} = await catalogApi.searchCatalogItems({
@@ -37,16 +39,18 @@ app.get("/", async (req, res, next) => {
   }
 });
 
-// called from staffSelect page to retrieve list of staff based off serviceId & service version
-// sends list of staff, a specific service, & specific service version to staffSelect page for rendering
+// route handler
+// get requests for http://localhost:3030/staff/serviceId/serviceVersion
+// calls Square Api to retrieve list of staff based off serviceId & serviceVersion
+// sends list of teamMembers, a specific service, & specific service version in the response
 app.get("/staff/:serviceId/:serviceVersion", async(req, res, next) => {
   const serviceId = req.params.serviceId;
   const serviceVersion = req.params.serviceVersion;
   try {
-    // Send request to get the service associated with the given item variation ID, and related objects.
+    // promise retrieves service associated with the given item variation ID, and related objects.
     const retrieveServicePromise = catalogApi.retrieveCatalogObject(serviceId);
 
-    // Send request to list all active team members for this merchant at this location.
+    // promise retrieves a list all active team members for this merchant at this location.
     const listActiveTeamMembersPromise = teamApi.searchTeamMembers({
       query: {
         filter: {
@@ -56,11 +60,9 @@ app.get("/staff/:serviceId/:serviceVersion", async(req, res, next) => {
       }
     });
 
-    // Wait until all API calls have completed.
     const [ { result: service }, { result: { teamMembers } } ] =
       await Promise.all([ retrieveServicePromise, listActiveTeamMembersPromise ]);
 
-    // console.log(teamMembers, service, serviceVersion);
     res.json({
       team: JSONBig.parse(JSONBig.stringify(teamMembers)), 
       service: JSONBig.parse(JSONBig.stringify(service)), 
@@ -72,6 +74,10 @@ app.get("/staff/:serviceId/:serviceVersion", async(req, res, next) => {
   }
 })
 
+// route handler
+// get requests for http://localhost:3030/availabilites?* 
+// `query` is passed via query parameters & is needed to Sqaure Api request
+// sends availability dates in response
 app.get("/availabilities?*", async (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   const query = req.query;
@@ -79,6 +85,10 @@ app.get("/availabilities?*", async (req, res, next) => {
   res.json(JSONBig.parse(JSONBig.stringify(result)));
 })
 
+// route handler 
+// get requests for http://localhost:3030/serviceId/serviceVersion/teamMemberId/startAt
+// calls Square Api for team member profile & service data
+// sends team member & service data in response
 app.get("/contact/:serviceId/:serviceVersion/:teamMemberId/:startAt", async (req, res, next) => {
   const serviceId = req.params.serviceId;
   const serviceVersion = req.params.serviceVersion;
