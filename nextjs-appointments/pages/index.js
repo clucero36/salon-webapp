@@ -13,7 +13,7 @@ function home() {
       <Header />
       <Box width='80%' display='flex' justifyContent='space-between' m='3rem auto'> 
         <Text lineHeight='95%' width='60%' fontSize='3xl' fontWeight='bold' align='center'>Brow Care With Vegan Products</Text>
-        <Image boxSize={20} src='eyebrow.png' />
+        <Image boxSize={20} src='/static/img/eyebrow.png' />
       </Box>
       <Box w='50%' display='flex' m='8rem auto' textAlign='center' justifyContent='space-around'>
         <Link href='/service-details'>
