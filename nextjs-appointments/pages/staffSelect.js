@@ -9,11 +9,10 @@ import Link from 'next/link';
 // passes staff data retrieved in response to StaffSelect as props.
 export async function getServerSideProps(context) {
   const serviceID = context.query.serviceId;
-  const serviceVersion = context.query.serviceVersion;
 
-  const res = await fetch(`http://localhost:3030/staff/${serviceID}/${serviceVersion}`);
+  const res = await fetch(`http://localhost:3030/staff/${serviceID}`);
   
-  const data = await res.text();
+  const data = await res.json();
 
   if (!data) {
     return {
@@ -23,29 +22,28 @@ export async function getServerSideProps(context) {
 
   return { 
     props: {
-      data: data
+      staffData: data
     }
   }
 };
 
 // displays service selected, a description of the service, & a list of team members.
 // Next.js Link component transitions user to /availabilities. Query params provided.
-export default function staffSelect({ data }) {
-  let staffData = JSON.parse(data);
-  const team = staffData.team;
-  const service = staffData.service.object.itemData.name;
-  const serviceDesc = staffData.service.object.itemData.description;
+export default function staffSelect({ staffData }) {
+  const reviver = (key, value) => key === 'version' || key === 'serviceDuration' || key === 'amount' ? BigInt(value) : value;
+  const team = JSON.parse(staffData.team, reviver);
+  const service = JSON.parse(staffData.service, reviver);
 
   let renderedTeam = team.map((teamMember) => {
     return (
-      <Link key={teamMember.id} as='/availabilites' href={{
+      <Link key={teamMember.id} href={{
         pathname: '/availabilities',
         query: {
-          serviceId: `${staffData.service.object.id}`,
-          serviceVersion: `${staffData.service.object.version}`,
+          serviceId: `${service.object.id}`,
+          serviceVersion: `${service.object.version}`,
           teamMemberId: `${teamMember.id}`,
-          serviceVariationId: `${staffData.service.object.itemData.variations[0].id}`,
-          locationId: `${staffData.service.object.presentAtLocationIds[0]}`,
+          serviceVariationId: `${service.object.itemData.variations[0].id}`,
+          locationId: `${service.object.presentAtLocationIds[0]}`,
         }
       }}>
         <Box border='1px'>
@@ -61,8 +59,8 @@ export default function staffSelect({ data }) {
   return (
     <Box p='5rem' align='center'>
       <Text>StaffSelect Page</Text>
-      <Text>You Have Selected the {service} Service</Text>
-      <Text>{serviceDesc}</Text>
+      <Text>You Have Selected the {service.object.itemData.name} Service</Text>
+      <Text>{service.object.itemData.description}</Text>
       <Box align='left'>
         <Text>Select a Team Member:</Text>
         {renderedTeam}

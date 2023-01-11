@@ -2,7 +2,7 @@
 const { Client, Environment } = require('square');
 require('dotenv').config();
 
-// create new client with square credentials
+// instantiate client object with square credentials to use Square Node.js SDK
 const client = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
   environment: Environment.Sandbox
