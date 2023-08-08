@@ -1,4 +1,4 @@
-Mobile First, Salon Web Application (work in progress)
+Salon Web Application (work in progress)
 
 Currently being developed with: 
 
