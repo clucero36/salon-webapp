@@ -37,7 +37,6 @@ app.get("/", async (req, res, next) => {
     if (!items) {
       items = [];
     }
-
     res.json({items: JSON.stringify(items, replacer)})
   } catch (error) {
     console.error(error);
@@ -67,7 +66,7 @@ app.get("/staff/:serviceId/", async(req, res, next) => {
 
     const [ { result: service }, { result: { teamMembers } } ] =
       await Promise.all([ retrieveServicePromise, listActiveTeamMembersPromise ]);
-
+    console.log(teamMembers)
     res.json({
       team: JSON.stringify(teamMembers, replacer), 
       service: JSON.stringify(service, replacer),
