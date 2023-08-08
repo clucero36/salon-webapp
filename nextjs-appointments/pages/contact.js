@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
+// prerender method takes url parameters after a client has selected a service, a team member, and a start time
 export async function getServerSideProps(context) {
   const serviceId = context.query.serviceId;
   const serviceVersion = context.query.serviceVersion;
@@ -25,6 +26,8 @@ export async function getServerSideProps(context) {
   }
 }
 
+// service data is passed as props
+// client fills out the contact form, and an appointment is scheduled after a request to /create endpoint
 export default function contact({ serviceDetails }) {
   const reviver = (key, value) => key === 'version' || key === 'serviceDuration' || key === 'amount' || key === 'serviceVariationVersion' ? BigInt(value) : value;
   const replacer = (key, value) => key === 'version' || key === 'serviceDuration' || key === 'amount' || key === 'serviceVariationVersion' ? value.toString() : value;

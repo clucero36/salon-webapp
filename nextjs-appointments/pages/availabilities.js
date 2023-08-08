@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 // grab url params on pre render & pass to client for api call
-// should make api call from this client side (to do)
+// should make api call from this client side (in progress)
 export async function getServerSideProps(context) {
   return {
     props: {

@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
   const res = await fetch(`http://localhost:3030/staff/${serviceID}`);
   
   const data = await res.json();
-
+  console.log(data);
   if (!data) {
     return {
       notFound: true,
@@ -43,7 +43,7 @@ export default function staffSelect({ staffData }) {
           serviceVersion: `${service.object.version}`,
           teamMemberId: `${teamMember.id}`,
           serviceVariationId: `${service.object.itemData.variations[0].id}`,
-          locationId: `${service.object.presentAtLocationIds[0]}`,
+          locationId: team[0].assignedLocations.locationIds[0],
         }
       }}>
         <Box border='1px'>
